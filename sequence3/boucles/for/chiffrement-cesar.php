@@ -9,6 +9,12 @@ $cle=readline("Entrer une clé : ");
 
 
 
-
+for($i=0;$i<strlen($chaine);$i++){
+    $car = substr($chaine, $i, 1);
+    for ($a=1;$a<=$cle;$a++){
+        $car ++;
+    }
+    echo $car." ";
+}
 
 
