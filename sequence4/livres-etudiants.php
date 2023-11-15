@@ -61,166 +61,169 @@ $livres = [
 $taille=count($livres);
 
 
-echo PHP_EOL;
-// Afficher pour chaque livre son titre, son auteur et son année de parution
-// Format d'affichage : "Titre" écrit par "Auteur" en "Année de parution"
-echo "------------ Liste des livres ------------".PHP_EOL;
-echo PHP_EOL;
-for($i=0;$i<$taille;$i++){
-    $infolivre=cherchelivres($i);
-    echo $infolivre[0]." écrit par ".$infolivre[1]." en ".$infolivre[2]. "\n";
-}
-echo PHP_EOL;
+while (true) {  // Utiliser comme boucle infinie afin de pouvoir rejouer en cas d'envie
+    echo "\n1. \033[33mAfficher la liste des livres\033[0m.\n";
+    echo "2. Rechercher un livre par \033[33mauteur\033[0m.\n";
+    echo "3. Modifier \033[33ml'année de parution\033[0m d'un livre.\n";
+    echo "4. Rechercher des livres par \033[33mplage d'années\033[0m.\n";
+    echo "5. Rechercher des livres par \033[33mmot clé\033[0m dans le titre.\n";
+    echo "6. \033[33mAfficher tout les genres\033[0m\n";
+    echo "7. Afficher le nombre de livres \033[33mpour un auteur donné\033[0m.\n";
+    echo "8. Quitter.\n";
+    $choixmenu = readline("Votre \033[33mchoix\033[0m (1,2,3,4,5,6,7 ou 8) : ");
+    echo PHP_EOL;
 
-// Rechercher et afficher tous les livres écrits par un auteur donné
-// L'auteur est saisi par l'utilisateur (respecter la casse)
-// Format d'affichage : "Titre" ("Genre") écrit en "Année de parution"
-// Si aucun livre n'est trouvé, afficher "Aucun livre trouvé pour cet auteur"
-echo "------------ Recherche de livres par auteur ------------".PHP_EOL;
 
-echo PHP_EOL;
-$valeur=readline("Entrer le nom d'un auteur : ");
-$cas=0;
-for($i=0;$i<$taille;$i++){
-    $infolivre=cherchelivres($i);
-    if ($infolivre[1]==$valeur){
-        echo $infolivre[0]." (".$infolivre[3].") écrit en ".$infolivre[2];
-        $cas++;
+if ($choixmenu==1){
+
+    echo "------------ Liste des livres ------------".PHP_EOL;
+    echo PHP_EOL;
+    for($i=0;$i<$taille;$i++){
+        $infolivre=cherchelivres($i);
+        echo $infolivre[0]." écrit par ".$infolivre[1]." en ".$infolivre[2]. "\n";
     }
-}
-if ($cas<1){
-    echo "Aucune livre trouvé pour cet auteur \n";
-}
-echo PHP_EOL;
+    echo PHP_EOL;
 
-// Modifier l'année de parution d'un livre dont l'ISBN est saisi par l'utilisateur
-// L'année de parution est également saisie par l'utilisateur
-// Si l'ISBN n'est pas trouvé, afficher "ISBN non trouvé"
-// sinon afficher "L'année de parution a été modifiée avec succès et afficher la liste des livres mise à jour"
-echo "------------ Modification de l'année de parution ------------".PHP_EOL;
-echo PHP_EOL;
+}elseif ($choixmenu==2){
 
-$cpt=0;
-$saisie=readline("Saisir un numéro ISBN : ");
-echo PHP_EOL;
-$anneep=readline("Saisir l'année de parution : ");
-echo PHP_EOL;
-$rectification="";
-$stock=0;
-for ($i=0;$i < $taille;$i++){
-    $infolivre=cherchelivres($i);
-    if ($saisie==$infolivre[4]){
-        $stock=$i;
-        $rectification="$infolivre[0]:$infolivre[1]:$anneep:$infolivre[3]:$infolivre[4]";
-        $cpt++;
+    echo "------------ Recherche de livres par auteur ------------".PHP_EOL;
+
+    echo PHP_EOL;
+    $valeur=readline("Entrer le nom d'un auteur : ");
+    $cas=0;
+    for($i=0;$i<$taille;$i++){
+        $infolivre=cherchelivres($i);
+        if ($infolivre[1]==$valeur){
+            echo $infolivre[0]." (".$infolivre[3].") écrit en ".$infolivre[2]."\n";
+            $cas++;
+        }
     }
-}
-echo PHP_EOL;
-if ($cpt>0){
-    $livres[$stock]=$rectification;
-    echo "L'année de parution a été modifiée avec succès et afficher la liste des livres mise à jour";
+    if ($cas<1){
+        echo "Aucune livre trouvé pour cet auteur \n";
+    }
+    echo PHP_EOL;
+
+}elseif ($choixmenu==3){
+
+    echo "------------ Modification de l'année de parution ------------".PHP_EOL;
+    echo PHP_EOL;
+
+    $cpt=0;
+    $saisie=readline("Saisir un numéro ISBN : ");
+    echo PHP_EOL;
+    $anneep=readline("Saisir l'année de parution : ");
+    echo PHP_EOL;
+    $rectification="";
+    $stock=0;
+    for ($i=0;$i < $taille;$i++){
+        $infolivre=cherchelivres($i);
+        if ($saisie==$infolivre[4]){
+            $stock=$i;
+            $rectification="$infolivre[0]:$infolivre[1]:$anneep:$infolivre[3]:$infolivre[4]";
+            $cpt++;
+        }
+    }
+    echo PHP_EOL;
+    if ($cpt>0){
+        $livres[$stock]=$rectification;
+        echo "L'année de parution a été modifiée avec succès et afficher la liste des livres mise à jour";
+    }else{
+        echo "ISBN non trouvé";
+    }
+
+
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+}elseif ($choixmenu==4){
+
+    echo "------------ Recherche de livres entre deux années ------------".PHP_EOL;
+    echo PHP_EOL;
+
+    $date1=readline("Saisir une Année de début : ");
+    echo PHP_EOL;
+    $date2=readline("Saisir une Année de fin : ");
+    $cas=0;
+    for($i=0;$i<$taille;$i++){
+        $infolivre=cherchelivres($i);
+        if (($infolivre[2]>=$date1) and ($infolivre[2]<=$date2)) {
+            echo $infolivre[0]." de ".$infolivre[1]." (Publié en ".$infolivre[2].") \n";
+            $cas++;
+        }
+    }
+    if ($cas<1){
+        echo "Aucune livre trouvé pour cette intervale de date";
+    }
+
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+}elseif ($choixmenu==5){
+
+    echo "------------ Recherche de livres par mot clé dans le titre ------------".PHP_EOL;
+    echo PHP_EOL;
+
+    $valeur=readline("Entrer votre recherche : ");
+    $cas=0;
+    for($i=0;$i<$taille;$i++){
+        $infolivre=cherchelivres($i);
+        $x = strpos($infolivre[0], $valeur);
+        if ($x !== false) {
+            echo $infolivre[0]." de ".$infolivre[1]." (".$infolivre[2].") \n";
+            $cas++;
+        }
+    }
+    if ($cas<1){
+        echo "Aucune livre trouvé pour cet recherche";
+    }
+
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+}elseif ($choixmenu==6){
+
+    echo "------------ Recherche des genres ------------".PHP_EOL;
+    echo PHP_EOL;
+
+    $tout_genre="Roman";
+    for ($i=0;$i < $taille;$i++){
+        $infolivre=cherchelivres($i);
+        if ((strpos($tout_genre, $infolivre[3])) == false){
+            $tout_genre=$tout_genre."\n".$infolivre[3];
+        }
+    }
+
+    echo "Les genres dans notre bibliotèque sont : \n".$tout_genre;
+
+
+    echo PHP_EOL;
+    echo PHP_EOL;
+
+}elseif ($choixmenu==7){
+
+    echo "------------ Nombre de livres pour un auteur donné ------------".PHP_EOL;
+    echo PHP_EOL;
+
+    $saisie=readline("Entrer un auteur : ");
+    $cpt=0;
+    for($i=0;$i<$taille;$i++){
+        $infolivre=cherchelivres($i);
+        if($infolivre[1]==$saisie){
+            $cpt++;
+        }
+    }
+    if ($cpt>0){
+        echo $saisie." a écrit ".$cpt." livres";
+    }else{
+        echo "Aucun livre trouvé pour $saisie";
+    }
+    echo PHP_EOL;
+    echo PHP_EOL;
+
 }else{
-    echo "ISBN non trouvé";
+
+    echo "\nMerci d'être venue ! bon journée !";
+    die();
+
 }
-
-
-echo PHP_EOL;
-echo PHP_EOL;
-// Rechercher et afficher tous les livres publiés entre deux années spécifiques.
-// Les années sont saisies par l'utilisateur (Année de début et Année de fin)
-// Format d'affichage : "Titre" de "Auteur" (Publié en "Année de parution")
-echo "------------ Recherche de livres entre deux années ------------".PHP_EOL;
-echo PHP_EOL;
-
-$date1=readline("Saisir une Année de début : ");
-echo PHP_EOL;
-$date2=readline("Saisir une Année de fin : ");
-$cas=0;
-for($i=0;$i<$taille;$i++){
-    $infolivre=cherchelivres($i);
-    if (($infolivre[2]>=$date1) and ($infolivre[2]<=$date2)) {
-        echo $infolivre[0]." de ".$infolivre[1]." (Publié en ".$infolivre[2].") \n";
-        $cas++;
-    }
 }
-if ($cas<1){
-    echo "Aucune livre trouvé pour cette intervale de date";
-}
-
-echo PHP_EOL;
-echo PHP_EOL;
-// Rechercher et afficher tous les livres dont le titre contient une chaine de caractères spécifique.
-// La chaine de recherche  est saisie par l'utilisateur
-// La recherche doit être insensible à la casse
-// Format d'affichage : "Titre" de "Auteur" ("Année de parution")
-echo "------------ Recherche de livres par mot clé dans le titre ------------".PHP_EOL;
-echo PHP_EOL;
-
-$valeur=readline("Entrer votre recherche : ");
-$cas=0;
-for($i=0;$i<$taille;$i++){
-    $infolivre=cherchelivres($i);
-    $x = strpos($infolivre[0], $valeur);
-    if ($x !== false) {
-        echo $infolivre[0]." de ".$infolivre[1]." (".$infolivre[2].") \n";
-        $cas++;
-    }
-}
-if ($cas<1){
-    echo "Aucune livre trouvé pour cet recherche";
-}
-
-echo PHP_EOL;
-echo PHP_EOL;
-// Rechercher tous les genres proposés et stocker dans un tableau
-// Attention un même genre ne doit être stocké qu'une seule fois
-// Afficher les genres
-echo "------------ Recherche des genres ------------".PHP_EOL;
-echo PHP_EOL;
-
-$tout_genre="Roman";
-for ($i=0;$i < $taille;$i++){
-    $infolivre=cherchelivres($i);
-    if ((strpos($tout_genre, $infolivre[3])) == false){
-        $tout_genre=$tout_genre."\n".$infolivre[3];
-    }
-}
-
-echo "Les genres dans notre bibliotèque sont : \n".$tout_genre;
-
-
-echo PHP_EOL;
-echo PHP_EOL;
-// Afficher le nombre de livres pour un auteur donné
-// L'auteur est saisi par l'utilisateur (attention la casse n'est pas forcément respectée pour le nom de l'auteur)
-// Format d'affichage : "Auteur" a écrit "Nombre de livres" livres
-// Si aucun livre n'est trouvé, afficher "Aucun livre trouvé pour cet auteur"
-echo "------------ Nombre de livres pour un auteur donné ------------".PHP_EOL;
-echo PHP_EOL;
-
-$saisie=readline("Entrer un auteur : ");
-$cpt=0;
-for($i=0;$i<$taille;$i++){
-    $infolivre=cherchelivres($i);
-    if($infolivre[1]==$saisie){
-        $cpt++;
-    }
-}
-if ($cpt>0){
-    echo $saisie." a écrit ".$cpt." livres";
-}else{
-    echo "Aucun livre trouvé pour $saisie";
-}
-echo PHP_EOL;
-echo PHP_EOL;
-// BONUS
-// Créer un menu permettant à l'utilisateur de choisir une action à effectuer
-// 1. Afficher la liste des livres
-// 2. Rechercher un livre par auteur
-// 3. Modifier l'année de parution d'un livre
-// 4. Rechercher des livres par plage d'années
-// 5. Rechercher des livres par mot clé dans le titre
-// 6. Rechercher tous les genres
-// 7. Afficher le nombre de livres pour un auteur donné
-// 8. Quitter
-

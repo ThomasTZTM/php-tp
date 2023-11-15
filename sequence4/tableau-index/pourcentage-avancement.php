@@ -10,6 +10,7 @@ foreach ($a as $item){
         $val=round((100*$prog)/10000000);
         if ($val<100){
             echo "\033[41m$val%\033[0m \n";
+            sleep(2);
         }
         if ($val==100){
             echo "\033[42m$val%\033[0m\n";
