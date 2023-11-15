@@ -89,7 +89,7 @@ for($i=0;$i<$taille;$i++){
     }
 }
 if ($cas<1){
-    echo "Aucune livre trouvé pour cet auteur";
+    echo "Aucune livre trouvé pour cet auteur \n";
 }
 echo PHP_EOL;
 
@@ -100,6 +100,31 @@ echo PHP_EOL;
 echo "------------ Modification de l'année de parution ------------".PHP_EOL;
 echo PHP_EOL;
 
+$cpt=0;
+$saisie=readline("Saisir un numéro ISBN : ");
+echo PHP_EOL;
+$anneep=readline("Saisir l'année de parution : ");
+echo PHP_EOL;
+$rectification="";
+$stock=0;
+for ($i=0;$i < $taille;$i++){
+    $infolivre=cherchelivres($i);
+    if ($saisie==$infolivre[4]){
+        $stock=$i;
+        $rectification="$infolivre[0]:$infolivre[1]:$anneep:$infolivre[3]:$infolivre[4]";
+        $cpt++;
+    }
+}
+echo PHP_EOL;
+if ($cpt>0){
+    $livres[$stock]=$rectification;
+    echo "L'année de parution a été modifiée avec succès et afficher la liste des livres mise à jour";
+}else{
+    echo "ISBN non trouvé";
+}
+
+
+echo PHP_EOL;
 echo PHP_EOL;
 // Rechercher et afficher tous les livres publiés entre deux années spécifiques.
 // Les années sont saisies par l'utilisateur (Année de début et Année de fin)
@@ -107,6 +132,22 @@ echo PHP_EOL;
 echo "------------ Recherche de livres entre deux années ------------".PHP_EOL;
 echo PHP_EOL;
 
+$date1=readline("Saisir une Année de début : ");
+echo PHP_EOL;
+$date2=readline("Saisir une Année de fin : ");
+$cas=0;
+for($i=0;$i<$taille;$i++){
+    $infolivre=cherchelivres($i);
+    if (($infolivre[2]>=$date1) and ($infolivre[2]<=$date2)) {
+        echo $infolivre[0]." de ".$infolivre[1]." (Publié en ".$infolivre[2].") \n";
+        $cas++;
+    }
+}
+if ($cas<1){
+    echo "Aucune livre trouvé pour cette intervale de date";
+}
+
+echo PHP_EOL;
 echo PHP_EOL;
 // Rechercher et afficher tous les livres dont le titre contient une chaine de caractères spécifique.
 // La chaine de recherche  est saisie par l'utilisateur
@@ -121,9 +162,8 @@ for($i=0;$i<$taille;$i++){
     $infolivre=cherchelivres($i);
     $x = strpos($infolivre[0], $valeur);
     if ($x !== false) {
-        echo $infolivre[0]." de ".$infolivre[1]." (".$infolivre[2].")";
-    } else {
-        echo "Le mot 'Les' n'a pas été trouvé \n";
+        echo $infolivre[0]." de ".$infolivre[1]." (".$infolivre[2].") \n";
+        $cas++;
     }
 }
 if ($cas<1){
@@ -131,12 +171,25 @@ if ($cas<1){
 }
 
 echo PHP_EOL;
+echo PHP_EOL;
 // Rechercher tous les genres proposés et stocker dans un tableau
 // Attention un même genre ne doit être stocké qu'une seule fois
 // Afficher les genres
 echo "------------ Recherche des genres ------------".PHP_EOL;
 echo PHP_EOL;
 
+$tout_genre="Roman";
+for ($i=0;$i < $taille;$i++){
+    $infolivre=cherchelivres($i);
+    if ((strpos($tout_genre, $infolivre[3])) == false){
+        $tout_genre=$tout_genre."\n".$infolivre[3];
+    }
+}
+
+echo "Les genres dans notre bibliotèque sont : \n".$tout_genre;
+
+
+echo PHP_EOL;
 echo PHP_EOL;
 // Afficher le nombre de livres pour un auteur donné
 // L'auteur est saisi par l'utilisateur (attention la casse n'est pas forcément respectée pour le nom de l'auteur)
@@ -145,6 +198,20 @@ echo PHP_EOL;
 echo "------------ Nombre de livres pour un auteur donné ------------".PHP_EOL;
 echo PHP_EOL;
 
+$saisie=readline("Entrer un auteur : ");
+$cpt=0;
+for($i=0;$i<$taille;$i++){
+    $infolivre=cherchelivres($i);
+    if($infolivre[1]==$saisie){
+        $cpt++;
+    }
+}
+if ($cpt>0){
+    echo $saisie." a écrit ".$cpt." livres";
+}else{
+    echo "Aucun livre trouvé pour $saisie";
+}
+echo PHP_EOL;
 echo PHP_EOL;
 // BONUS
 // Créer un menu permettant à l'utilisateur de choisir une action à effectuer
