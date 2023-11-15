@@ -58,6 +58,15 @@ $livres = [
     "Zadig:Voltaire:1747:Conte philosophique:978-0-679-60139-1"
 ];
 
+foreach ($livres as $livre) {
+    list($titre,$auteur,$annee,$genre,$isbn) = explode(':',$livre);
+   // $livreInfos = explode(':',$livre);
+
+    echo "$titre écrit par $auteur en $annee";
+    echo PHP_EOL;
+}
+
+
 $taille=count($livres);
 
 
