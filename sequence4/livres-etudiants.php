@@ -1,32 +1,32 @@
 <?php
-function cherchelivres($nb_livre){
+function cherchelivres($nb_livre,$separateur){
 
     global $livres;
     $infolivre=[];
 
     ################# NOM DU LIVRE
-    $position_nomlivre = strpos(($livres[$nb_livre]), ":");
+    $position_nomlivre = strpos(($livres[$nb_livre]), $separateur);
     $nomdulivre = substr($livres[$nb_livre], 0, $position_nomlivre);
     $infolivre[]=$nomdulivre;
     //echo "\n Nom du livre : $nomdulivre";
 
 ################# NOM DE L'AUTEUR
     $nv_nomauteur=substr($livres[$nb_livre],$position_nomlivre+1,(strlen($livres[$nb_livre])-$position_nomlivre));
-    $position_nomAuteur = strpos($nv_nomauteur, ":");
+    $position_nomAuteur = strpos($nv_nomauteur, $separateur);
     $nomdeAuteur = substr($nv_nomauteur, 0, $position_nomAuteur);
     $infolivre[]=$nomdeAuteur;
     //echo "\n Nom Auteur : $nomdeAuteur";
 
 ################# DATE LIVRE
     $nv_date=substr($livres[$nb_livre],$position_nomAuteur+$position_nomlivre+2,(strlen($livres[$nb_livre])-$position_nomAuteur));
-    $position_date = strpos($nv_date, ":");
+    $position_date = strpos($nv_date, $separateur);
     $date_livre = substr($nv_date, 0, $position_date);
     $infolivre[]=$date_livre;
     //echo " \n Date : $date_livre";
 
 ################# GENRE
     $nv_genre=substr($livres[$nb_livre],$position_nomAuteur+$position_nomlivre+$position_date+3,(strlen($livres[$nb_livre])-$position_date));
-    $position_genre = strpos($nv_genre, ":");
+    $position_genre = strpos($nv_genre, $separateur);
     $genre_livre = substr($nv_genre, 0, $position_genre);
     $infolivre[]=$genre_livre;
     //echo " \n Genre : $genre_livre";
@@ -62,8 +62,8 @@ foreach ($livres as $livre) {
     list($titre,$auteur,$annee,$genre,$isbn) = explode(':',$livre);
    // $livreInfos = explode(':',$livre);
 
-    echo "$titre écrit par $auteur en $annee";
-    echo PHP_EOL;
+    //echo "$titre écrit par $auteur en $annee";
+    //echo PHP_EOL;
 }
 
 
@@ -71,6 +71,18 @@ $taille=count($livres);
 
 
 while (true) {  // Utiliser comme boucle infinie afin de pouvoir rejouer en cas d'envie
+
+
+    echo PHP_EOL;
+    echo ".";
+    sleep(1);
+    echo ".";
+    sleep(1);
+    echo ".";
+    sleep(1);
+    echo PHP_EOL;
+
+
     echo "\n1. \033[33mAfficher la liste des livres\033[0m.\n";
     echo "2. Rechercher un livre par \033[33mauteur\033[0m.\n";
     echo "3. Modifier \033[33ml'année de parution\033[0m d'un livre.\n";
@@ -88,7 +100,7 @@ if ($choixmenu==1){
     echo "------------ Liste des livres ------------".PHP_EOL;
     echo PHP_EOL;
     for($i=0;$i<$taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         echo $infolivre[0]." écrit par ".$infolivre[1]." en ".$infolivre[2]. "\n";
     }
     echo PHP_EOL;
@@ -101,7 +113,7 @@ if ($choixmenu==1){
     $valeur=readline("Entrer le nom d'un auteur : ");
     $cas=0;
     for($i=0;$i<$taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         if ($infolivre[1]==$valeur){
             echo $infolivre[0]." (".$infolivre[3].") écrit en ".$infolivre[2]."\n";
             $cas++;
@@ -125,7 +137,7 @@ if ($choixmenu==1){
     $rectification="";
     $stock=0;
     for ($i=0;$i < $taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         if ($saisie==$infolivre[4]){
             $stock=$i;
             $rectification="$infolivre[0]:$infolivre[1]:$anneep:$infolivre[3]:$infolivre[4]";
@@ -154,7 +166,7 @@ if ($choixmenu==1){
     $date2=readline("Saisir une Année de fin : ");
     $cas=0;
     for($i=0;$i<$taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         if (($infolivre[2]>=$date1) and ($infolivre[2]<=$date2)) {
             echo $infolivre[0]." de ".$infolivre[1]." (Publié en ".$infolivre[2].") \n";
             $cas++;
@@ -175,7 +187,7 @@ if ($choixmenu==1){
     $valeur=readline("Entrer votre recherche : ");
     $cas=0;
     for($i=0;$i<$taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         $x = strpos($infolivre[0], $valeur);
         if ($x !== false) {
             echo $infolivre[0]." de ".$infolivre[1]." (".$infolivre[2].") \n";
@@ -196,7 +208,7 @@ if ($choixmenu==1){
 
     $tout_genre="Roman";
     for ($i=0;$i < $taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         if ((strpos($tout_genre, $infolivre[3])) == false){
             $tout_genre=$tout_genre."\n".$infolivre[3];
         }
@@ -216,7 +228,7 @@ if ($choixmenu==1){
     $saisie=readline("Entrer un auteur : ");
     $cpt=0;
     for($i=0;$i<$taille;$i++){
-        $infolivre=cherchelivres($i);
+        $infolivre=cherchelivres($i,":");
         if($infolivre[1]==$saisie){
             $cpt++;
         }
