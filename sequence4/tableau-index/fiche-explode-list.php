@@ -50,6 +50,7 @@ echo $auteur;
 echo PHP_EOL;
 
 // Afficher ISBN du livre
+
 [,,,,$isbn]=explode(":",$livre);
 echo $isbn;
 echo PHP_EOL;
