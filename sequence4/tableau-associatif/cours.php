@@ -137,4 +137,10 @@ if (count($nom_eleve)>1){
 }
 
 
-
+$i=60;
+$z=0;
+while ($i>0){
+    sleep(1);
+    echo $i."\n";
+    $i--;
+}
