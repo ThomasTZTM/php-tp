@@ -1,0 +1,11 @@
+Vocabulaire :
+    - tableaux indexés                  Elément valeur INDEX
+    - tableaux associatifs              Elément valeur clé
+
+    Tableau Uni-dimentionnel : chaque élément contient une seule valeur
+    Tableau Bi-dimentionnel : chaque élément contient un tableau
+
+    -> tableaux indexés dont chaque élément est lui meme un tableau indexer
+    -> tableaux indéxés dont chaque élément est un tableau associatif
+    -> tableaux associatifs dont chaque élément est un tableau indéxer
+    -> tableaux associatifs dont chaque élément est un tableau associatif
