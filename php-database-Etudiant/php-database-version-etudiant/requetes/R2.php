@@ -9,5 +9,6 @@ require_once "requetes.php";
  * Test requête R2
 */
 
-$categorieId = readline("Saisir l'id d'une catégorie : ");
+$entrer=readline("Entrer une catégorie : ");
+//$categorieId = readline("Saisir l'id d'une catégorie : ");
 

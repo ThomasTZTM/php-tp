@@ -21,8 +21,14 @@ function rechercherArticlesActifs(array $tableArticle) : array {
 */
 // PLACER ICI VOTRE FONCTION
 
-function afficherArticle(string $id_categ) : string {
-    $resultats = [];
+function afficherArticleAvecCategorie(array $tableArticle, array $tableCategorie, string $entrer){
+    foreach ($tableCategorie as $cle=>$arrayCategorie){
+        foreach ($arrayCategorie as $Categorie){
+            if ($Categorie == $entrer){
+                $stock=$elt;
+            }
+        }
+    }
 }
 
 /* Requête R3
