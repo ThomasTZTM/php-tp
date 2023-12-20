@@ -8,28 +8,48 @@
 /* Requête R1
  * Récupérer les articles actifs (articles à afficher)
  * On souhaite récupérer l'id, le titre, le contenu et la date de création de chaque article
-*/
+
 function rechercherArticlesActifs(array $tableArticle) : array {
     $resultats = [];
-    // Implémentation
+    foreach ($tableArticle as $cleA=>$Article) {
+        foreach ($Article as $Libeller => $description) {
+            if ($Libeller=="titre" or $Libeller=="" or $Libeller==)  {
+                $resultats[]=$description;
+            }
+            $resultats[]=$cleA;
+        }
+    }
     return $resultats;
 }
-
+*/
 /* Requête R2
  * Récupérer les articles d'une catégorie donnée
  * On souhaite récupérer l'id, le titre, le contenu et la date de création de chaque article
 */
 // PLACER ICI VOTRE FONCTION
 
-function afficherArticleAvecCategorie(array $tableArticle, array $tableCategorie, string $entrer){
+function afficherArticleAvecCategorie(array $tableArticle, array $tableCategorie, string $entrer) : array{
+    $reponse = [];
     foreach ($tableCategorie as $cle=>$arrayCategorie){
         foreach ($arrayCategorie as $Categorie){
             if ($Categorie == $entrer){
-                $stock=$elt;
+                $stock=$cle;
             }
         }
     }
+    foreach ($tableArticle as $cleA=>$Article){
+        foreach ($Article as $Libeller=>$description){
+            if ($Article["id_categorie"]==number_format($stock)){
+                $chara = " $Libeller = $description | ";
+                echo "$chara \n";
+                $reponse[]=$chara;
+            }
+        }
+    }
+    return $reponse;
 }
+
+
 
 /* Requête R3
  * Récupérer l'ensemble des articles
@@ -52,6 +72,39 @@ function afficherArticleAvecCategorie(array $tableArticle, array $tableCategorie
 */
 // PLACER ICI VOTRE FONCTION
 
+function ordonner_bibliotequaire($tableArticle, $tableCategorie): array{
+    $resultats=[];
+
+    function avoirLibeller($arryCategorie,$id):string{
+        foreach ($arryCategorie as $ids=>$tab){
+            foreach ($tab as $idCategorie=>$contenue){
+                if($id==$ids){
+                    $resultat=$contenue;
+                }
+            }
+        }
+        return $resultat;
+    }
+
+    foreach ($tableArticle as $idarticle=>$tableau){
+        $reponse=[];
+        $reponse["ID Article"]=$idarticle;
+        foreach ($tableau as $LibellerCategorie=>$contenu){
+            if ($LibellerCategorie=="id_categorie"){
+                $reponse["Categorie"]=avoirLibeller($tableCategorie,$contenu);
+            }else{
+                if ($LibellerCategorie=="contenu" or $LibellerCategorie=="actif" or $LibellerCategorie=="id_auteur"){
+                    echo"";
+                }else{
+                    $reponse[$LibellerCategorie]=$contenu;
+                }
+            }
+        }
+        $resultats[]=$reponse;
+    }
+    return $resultats;
+}
+
 
 /* Requête R6
  * Récupérer le nombre d'articles postés par un auteur donné (id_auteur)
@@ -64,3 +117,5 @@ function afficherArticleAvecCategorie(array $tableArticle, array $tableCategorie
  * On souhaite récupérer l'id, le prénom, le nom et le nombre d'articles ce chaque auteur
 */
 // PLACER ICI VOTRE FONCTION
+
+
